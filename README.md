@@ -1,3 +1,3 @@
 # Better Social Media
-Aiming to cleanse my social media feed.  
+Aiming to cleanse our social media feed.  
 Work in progress.
