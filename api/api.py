@@ -2,8 +2,7 @@ import os
 import json
 import time
 from unidecode import unidecode
-from tweepy import API, Stream, OAuthHandler
-from tweepy.streaming import StreamListener
+from tweepy import API, Stream
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -24,15 +23,11 @@ load_dotenv()
 #     print("------")
     
 # Twitter streamer---------------------------------------------------------------
-class Listener(StreamListener):
-    def __init__(self):
-        self.cnt = 0
+class Listener(Stream):
 
     def on_data(self, data):
         try:
-            self.cnt += 1
             tweet_data = json.loads(data)
-            # tweet_id = str(tweet_data['id_str'])
 
             if 'retweeted_status' in tweet_data:
                 if 'extended_tweet' in tweet_data['retweeted_status']:
@@ -44,7 +39,7 @@ class Listener(StreamListener):
                     tweet = unidecode(tweet_data['extended_tweet']['full_text'])
                 else:
                     tweet = unidecode(tweet_data['text'])
-            print(f'Writing tweet #{self.cnt}: {tweet}')
+            print(f'Writing tweet: {tweet}')
         
         except KeyError as e:
             print(str(e))
@@ -54,9 +49,11 @@ class Listener(StreamListener):
 
 if __name__ == '__main__':
     try:
-        auth = OAuthHandler(os.getenv('CONSUMER_KEY'), os.getenv('CONSUMER_SECRET'))
-        auth.set_access_token(os.getenv('ACCESS_TOKEN'), os.getenv('ACCESS_SECRET'))
-        twitter_stream = Stream(auth, Listener(), tweet_mode='extended')
+        twitter_stream = Listener(
+            os.getenv('CONSUMER_KEY'),
+            os.getenv('CONSUMER_SECRET'),
+            os.getenv('ACCESS_TOKEN'),
+            os.getenv('ACCESS_SECRET'))  # , tweet_mode='extended'
         twitter_stream.filter(languages=["en"], track=['a', 'e', 'i', 'o', 'u'])
 
     except Exception as e:
