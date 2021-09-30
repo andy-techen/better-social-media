@@ -1,0 +1,10 @@
+{
+  "name": "Better Social Media",
+  "description": "Filtering out negativity on social media",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage"]
+}
