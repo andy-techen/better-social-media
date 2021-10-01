@@ -10,5 +10,5 @@
   "action": {
     "default_popup": "popup.html"
   },
-  "options_page": "public/scripts/options.html"
+  "options_page": "public/pages/options.html"
 }
