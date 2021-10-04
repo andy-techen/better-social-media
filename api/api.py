@@ -1,5 +1,6 @@
 import os
 import json
+import csv
 import time
 from unidecode import unidecode
 from tweepy import API, Stream
@@ -21,13 +22,14 @@ load_dotenv()
 #     print(tweet.full_text)
 #     print(tweet.created_at)
 #     print("------")
-    
+
 # Twitter streamer---------------------------------------------------------------
 class Listener(Stream):
 
     def on_data(self, data):
         try:
             tweet_data = json.loads(data)
+            #print(tweet_data)
 
             if 'retweeted_status' in tweet_data:
                 if 'extended_tweet' in tweet_data['retweeted_status']:
@@ -39,8 +41,13 @@ class Listener(Stream):
                     tweet = unidecode(tweet_data['extended_tweet']['full_text'])
                 else:
                     tweet = unidecode(tweet_data['text'])
-            print(f'Writing tweet: {tweet}')
-        
+            # print(f'Writing tweet: {tweet}') #write to csv file
+            #print(tweet)
+            with open("output.csv", "w", encoding='utf-8') as f:
+                f.write('tweet\n')
+                writer = csv.writer(f)
+                writer.writerow([tweet])
+
         except KeyError as e:
             print(str(e))
 
@@ -55,6 +62,11 @@ if __name__ == '__main__':
             os.getenv('ACCESS_TOKEN'),
             os.getenv('ACCESS_SECRET'))  # , tweet_mode='extended'
         twitter_stream.filter(languages=["en"], track=['a', 'e', 'i', 'o', 'u'])
+
+        with open("output.csv", "w", encoding='utf-8') as f:
+            f.write('tweet\n')
+            writer = csv.writer(f)
+            writer.writerow([tweet])
 
     except Exception as e:
         print(e)
