@@ -36,20 +36,20 @@ class Listener(Stream):
             tweet_data = json.loads(data)
             #print(tweet_data)
 
-            # if 'retweeted_status' in tweet_data:
-            #     if 'extended_tweet' in tweet_data['retweeted_status']:
-            #         tweet = unidecode(tweet_data['retweeted_status']['extended_tweet']['full_text'])
-            #     else:
-            #         tweet = unidecode(tweet_data['retweeted_status']['text'])
-            # else:
-            #     if 'extended_tweet' in tweet_data:
-            #         tweet = unidecode(tweet_data['extended_tweet']['full_text'])
-            #     else:
-            #         tweet = unidecode(tweet_data['text'])
+            if 'retweeted_status' in tweet_data:
+                if 'extended_tweet' in tweet_data['retweeted_status']:
+                    tweet = unidecode(tweet_data['retweeted_status']['extended_tweet']['full_text'])
+                else:
+                    tweet = unidecode(tweet_data['retweeted_status']['text'])
+            else:
+                if 'extended_tweet' in tweet_data:
+                    tweet = unidecode(tweet_data['extended_tweet']['full_text'])
+                else:
+                    tweet = unidecode(tweet_data['text'])
             # print(f'Writing tweet #{self.cnt} to csv: {tweet}')
 
             created_at = tweet_data['created_at']
-            text = tweet_data['text']
+            # text = tweet_data['text']
             username = tweet_data['user']['name']
             screen_name = tweet_data['user']['screen_name']
             verified = tweet_data['user']['verified']
@@ -57,7 +57,7 @@ class Listener(Stream):
 
             with open("output.csv", "a", encoding='utf-8', newline='') as f:
                 writer = csv.writer(f)
-                writer.writerow([created_at, text, username, screen_name, verified, followers_count])
+                writer.writerow([created_at, tweet, username, screen_name, verified, followers_count])
 
             if self.cnt == self.max_tweets:
                 print('Writing complete!')
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     try:
         with open("output.csv", "w", encoding='utf-8', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(['created_at', 'text', 'username', 'screen_name', 'verified', 'followers_count'])
+            writer.writerow(['created_at', 'tweet', 'username', 'screen_name', 'verified', 'followers_count'])
 
         twitter_stream = Listener(
             os.getenv('CONSUMER_KEY'),
