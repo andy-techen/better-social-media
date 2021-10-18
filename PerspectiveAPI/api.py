@@ -18,7 +18,7 @@ load_dotenv()
 
 #Test API KEY and Response Analysis
 API_KEY = os.getenv('PERSPECTIVE_API_KEY')
-print(API_KEY)
+# print(API_KEY)
 
 client = discovery.build(
     "commentanalyzer",
@@ -29,8 +29,15 @@ client = discovery.build(
 )
 
 analyze_request = {
-    'comment': { 'text': 'friendly greetings from python' },
-    'requestedAttributes': {'TOXICITY': {}}
+    'comment': { 'text': 'We are not in a trade war with China, that war was lost many years ago by the foolish, or incompetent, people who represented the U.S. Now we have a Trade Deficit of $500 Billion a year, with Intellectual Property Theft of another $300 Billion. We cannot let this continue!' },
+    # 'requestedAttributes': {'TOXICITY': {}},
+    # 'requestedAttributes': {'SEVERE_TOXICITY': {}},
+    # 'requestedAttributes': {'IDENTITY_ATTACK': {}},
+    # 'requestedAttributes': {'INSULT': {}},
+    # 'requestedAttributes': {'PROFANITY': {}},
+    'requestedAttributes': {'THREAT': {}},
+    # 'requestedAttributes': {'SEXUALLY_EXPLICIT': {}},
+    # 'requestedAttributes': {'FLIRTATION': {}},
 }
 
 response = client.comments().analyze(body=analyze_request).execute()
