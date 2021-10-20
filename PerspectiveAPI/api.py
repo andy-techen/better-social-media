@@ -18,7 +18,6 @@ load_dotenv()
 
 #Test API KEY and Response Analysis
 API_KEY = os.getenv('PERSPECTIVE_API_KEY')
-# print(API_KEY)
 
 client = discovery.build(
     "commentanalyzer",
@@ -28,17 +27,46 @@ client = discovery.build(
     static_discovery=False,
 )
 
-analyze_request = {
-    'comment': { 'text': 'We are not in a trade war with China, that war was lost many years ago by the foolish, or incompetent, people who represented the U.S. Now we have a Trade Deficit of $500 Billion a year, with Intellectual Property Theft of another $300 Billion. We cannot let this continue!' },
-    # 'requestedAttributes': {'TOXICITY': {}},
-    # 'requestedAttributes': {'SEVERE_TOXICITY': {}},
-    # 'requestedAttributes': {'IDENTITY_ATTACK': {}},
-    # 'requestedAttributes': {'INSULT': {}},
-    # 'requestedAttributes': {'PROFANITY': {}},
-    'requestedAttributes': {'THREAT': {}},
-    # 'requestedAttributes': {'SEXUALLY_EXPLICIT': {}},
-    # 'requestedAttributes': {'FLIRTATION': {}},
-}
+def score_text(text):
+    analyze_request = {
+        'comment': { 'text': text},
+        'requestedAttributes': {
+            'TOXICITY': {},
+            'INSULT': {},
+            'PROFANITY': {},
+            'THREAT': {},
+            'SEXUALLY_EXPLICIT': {},
 
-response = client.comments().analyze(body=analyze_request).execute()
-print(json.dumps(response, indent=2))
+            ## Additional Sentiment Analysis:
+            ## - Depressive content
+        },
+    }
+
+    english = 'en'
+    if english in client.comments().analyze(body=analyze_request).execute()['languages']:
+
+        response = client.comments().analyze(body=analyze_request).execute()
+
+        results = {
+            'TOXICITY': response['attributeScores']['TOXICITY']['summaryScore']['value'],
+            'INSULT': response['attributeScores']['INSULT']['summaryScore']['value'],
+            'PROFANITY': response['attributeScores']['PROFANITY']['summaryScore']['value'],
+            'THREAT': response['attributeScores']['THREAT']['summaryScore']['value'],
+            'SEXUALLY_EXPLICIT': response['attributeScores']['SEXUALLY_EXPLICIT']['summaryScore']['value'],
+        }
+        return results
+
+    else:
+        return {'TOXICITY': 0, 'INSULT': 0, 'PROFANITY': 0, 'THREAT': 0, 'SEXUALLY_EXPLICIT': 0}
+
+if __name__ == '__main__':
+    pass
+
+    sample = '''We are not in a trade war with China, 
+    that war was lost many years ago by the foolish, 
+    or incompetent, people who represented the U.S. 
+    Now we have a Trade Deficit of $500 Billion a year, 
+    with Intellectual Property Theft of another $300 Billion. 
+    We cannot let this continue!'''
+
+    print(score_text(text=sample))
