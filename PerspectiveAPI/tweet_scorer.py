@@ -32,8 +32,9 @@ def PerspectiveScorer(tweets):
     new_tweets = []
     for tweet in tqdm(tweets):
         results = score_text(text=tweet['text'])
+        print(tweet['text'], results)
         new_tweets.append(dict(list(tweet.items()) + list(results.items()))) #merges tweet data with scoring data
-        time.sleep(1)
+        time.sleep(1.01)
 
     return new_tweets
 

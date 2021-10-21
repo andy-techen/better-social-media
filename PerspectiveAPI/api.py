@@ -2,6 +2,7 @@ from googleapiclient import discovery
 import json
 import os
 from dotenv import load_dotenv
+import time
 load_dotenv()
 
 # # # Testing connection
@@ -30,6 +31,7 @@ client = discovery.build(
 def score_text(text):
     analyze_request = {
         'comment': { 'text': text},
+        'languages': ['en'],
         'requestedAttributes': {
             'TOXICITY': {},
             'INSULT': {},
@@ -41,11 +43,15 @@ def score_text(text):
             ## - Depressive content
         },
     }
+    time.sleep(1)
 
-    english = 'en'
-    if english in client.comments().analyze(body=analyze_request).execute()['languages']:
+    # print(client.comments().analyze()['languages'])
+
+    english = ['en']
+    if english == client.comments().analyze(body=analyze_request).execute()['languages']:
 
         response = client.comments().analyze(body=analyze_request).execute()
+        #print(response)
 
         results = {
             'TOXICITY': response['attributeScores']['TOXICITY']['summaryScore']['value'],
