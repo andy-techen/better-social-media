@@ -43,16 +43,13 @@ def score_text(text):
             ## - Depressive content
         },
     }
-    time.sleep(1)
+    # time.sleep(1)
 
     # print(client.comments().analyze()['languages'])
 
-    english = ['en']
-    if english == client.comments().analyze(body=analyze_request).execute()['languages']:
-
-        response = client.comments().analyze(body=analyze_request).execute()
-        #print(response)
-
+    english = 'en'
+    response = client.comments().analyze(body=analyze_request).execute()
+    if english in response['languages']:
         results = {
             'TOXICITY': response['attributeScores']['TOXICITY']['summaryScore']['value'],
             'INSULT': response['attributeScores']['INSULT']['summaryScore']['value'],
@@ -64,6 +61,8 @@ def score_text(text):
 
     else:
         return {'TOXICITY': 0, 'INSULT': 0, 'PROFANITY': 0, 'THREAT': 0, 'SEXUALLY_EXPLICIT': 0}
+
+
 
 if __name__ == '__main__':
     pass
