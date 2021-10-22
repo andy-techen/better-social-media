@@ -28,7 +28,7 @@ class Listener(Stream):
     def __init__(self, cons_key, cons_secret, token, token_secret):
         super().__init__(cons_key, cons_secret, token, token_secret)
         self.cnt = 0
-        self.max_tweets = 1000
+        self.max_tweets = 100
 
     def on_data(self, data):
         try:
@@ -80,7 +80,7 @@ if __name__ == '__main__':
             os.getenv('CONSUMER_SECRET'),
             os.getenv('ACCESS_TOKEN'),
             os.getenv('ACCESS_SECRET'))  # , tweet_mode='extended'
-        twitter_stream.filter(languages=["en"], track=['a', 'e', 'i', 'o', 'u'])
+        twitter_stream.filter(languages=["en"], track=['a', 'e', 'i', 'o', 'u']) #track can search key terms (e.g. "Depressed")
 
     except Exception as e:
         print(e)
