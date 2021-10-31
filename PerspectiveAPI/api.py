@@ -45,8 +45,6 @@ def score_text(text):
     }
     # time.sleep(1)
 
-    # print(client.comments().analyze()['languages'])
-
     english = 'en'
     response = client.comments().analyze(body=analyze_request).execute()
     if english in response['languages']:
