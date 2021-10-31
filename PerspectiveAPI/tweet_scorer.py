@@ -1,9 +1,9 @@
 from api import score_text
 from csv import reader
-import os, time
+import os, time, csv
 from tqdm import tqdm
 
-path = os.path.expanduser('~/Documents/umich/courses/si650/project/better-social-media/TwitterAPI/output.csv')
+path = os.path.expanduser('../TwitterAPI/output.csv')
 
 def load_twitter_data():
     '''
@@ -31,11 +31,24 @@ def PerspectiveScorer(tweets):
 
     new_tweets = []
     for tweet in tqdm(tweets):
-        results = score_text(text=tweet['text'])
-        new_tweets.append(dict(list(tweet.items()) + list(results.items()))) #merges tweet data with scoring data
-        time.sleep(1)
+        try:
+            results = score_text(text=tweet['text'])
+            #print(tweet['text'], results)
+            new_tweets.append(dict(list(tweet.items()) + list(results.items()))) #merges tweet data with scoring data
+            time.sleep(1.01)
+        except:
+            time.sleep(10)
+            continue
 
     return new_tweets
+
+def write_csv(list):
+    keys = list[0].keys()
+    with open("scored_tweets.csv", "w", encoding='utf-8', newline='') as output_file:
+        writer = csv.DictWriter(output_file, keys)
+        writer.writeheader()
+        writer.writerows(list)
+        # writer.writerow(['created_at', 'text', 'username', 'screen_name', 'verified', 'followers_count', 'TOXICITY', 'INSULT', 'PROFANITY', 'THREAT', 'SEXUALLY_EXPLICIT'])
 
 
 
@@ -48,3 +61,8 @@ if __name__ == '__main__':
     tweets = load_twitter_data()
     # print(tweets[1])
     scored_tweets = PerspectiveScorer(tweets)
+    print(scored_tweets[0])
+    print(scored_tweets[30])
+    write_csv(scored_tweets)
+
+    #currently taking about 33 hours to score 100K tweets
