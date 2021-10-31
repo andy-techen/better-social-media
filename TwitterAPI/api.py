@@ -28,7 +28,7 @@ class Listener(Stream):
     def __init__(self, cons_key, cons_secret, token, token_secret):
         super().__init__(cons_key, cons_secret, token, token_secret)
         self.cnt = 0
-        self.max_tweets = 1000
+        self.max_tweets = 100000
 
     def on_data(self, data):
         try:
@@ -46,7 +46,7 @@ class Listener(Stream):
                     tweet = unidecode(tweet_data['extended_tweet']['full_text'])
                 else:
                     tweet = unidecode(tweet_data['text'])
-            #print(f'Writing tweet #{self.cnt} to csv: {tweet}')
+            print(f'Writing tweet #{self.cnt} to csv: {tweet}')
 
             created_at = tweet_data['created_at']
             text = tweet.replace('\n', '')
@@ -80,7 +80,29 @@ if __name__ == '__main__':
             os.getenv('CONSUMER_SECRET'),
             os.getenv('ACCESS_TOKEN'),
             os.getenv('ACCESS_SECRET'))  # , tweet_mode='extended'
-        twitter_stream.filter(languages=["en"], track=['a', 'e', 'i', 'o', 'u'])
+        twitter_stream.filter(languages=["en"], track=['a', 'e', 'i', 'o', 'u']) #track can search key terms (e.g. "Depressed")
+        # twitter_stream.filter(
+        #     languages=["en"],
+        #     track=[
+        #         'depression',
+        #         'depressing',
+        #         'suicide',
+        #         'suicidal'
+        #         'mental health',
+        #         'panic',
+        #         'panic attack',
+        #         'antidepressants',
+        #         'anxiety',
+        #         'disorder',
+        #         'stress',
+        #         'stressed',
+        #         'upset',
+        #         'pain',
+        #         'misery'
+        #         ]
+
+        #     ) #track can search key terms (e.g. "Depressed")
+
 
     except Exception as e:
         print(e)
