@@ -33,7 +33,7 @@ def PerspectiveScorer(tweets):
     for tweet in tqdm(tweets):
         try:
             results = score_text(text=tweet['text'])
-            print(tweet['text'], results)
+            #print(tweet['text'], results)
             new_tweets.append(dict(list(tweet.items()) + list(results.items()))) #merges tweet data with scoring data
             time.sleep(1.01)
         except:
@@ -64,3 +64,5 @@ if __name__ == '__main__':
     print(scored_tweets[0])
     print(scored_tweets[30])
     write_csv(scored_tweets)
+
+    #currently taking about 33 hours to score 100K tweets
