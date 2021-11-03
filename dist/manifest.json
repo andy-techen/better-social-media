@@ -2,12 +2,12 @@
   "name": "Better Social Media",
   "description": "Filtering out negativity on social media",
   "version": "1.0",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "background": {
-    "scripts": ["background.js"]
+    "service_worker": "background.js"
   },
   "permissions": ["tabs", "storage", "activeTab", "scripting", "https://twitter.com/"],
-  "browser_action": {
+  "action": {
     "default_popup": "index.html",
     "default_icon": {
       "16": "/images/icon-16.png",
