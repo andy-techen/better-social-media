@@ -1,10 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="styles/button.css">
+    <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <button id="changeColor"></button>
-    <script src="main.js"></script>
+    <div>
+      <div class="title-grid">
+        <h1>Twitter Negativity Filter</h1>
+        <img class="title-img" src="images/logo.png" height="50" alt="twitter_logo">
+      </div>
+      <h3>Searching for <span id="query-term">Query Term</span></h3>
+      <h4>Filter Out...</h4>
+      <form id="filters-form" class="filters-grid">
+        <div>
+          <label for="depressive">Depressiveness</label>
+          <input type="range" name="filter" id="depressive" min="0" max="1" step="0.1">
+        </div>
+        <div>
+          <label for="toxic">Toxicity</label>
+          <input type="range" name="filter" id="toxic" min="0" max="1" step="0.1">
+        </div>
+        <div>
+          <label for="sexual">Sexually Explicitness</label>
+          <input type="range" name="filter" id="sexual" min="0" max="1" step="0.1">
+        </div>
+        <div>
+          <label for="profanity">Profanity</label>
+          <input type="range" name="filter" id="profanity" min="0" max="1" step="0.1">
+        </div>
+      </form>
+    </div>
+    <div>
+      <button class="filter-button" type="submit">Abracadabra!</button>
+    </div>
+    <script src="../src/index.js"></script>
   </body>
 </html>

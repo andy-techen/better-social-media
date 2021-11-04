@@ -1,0 +1,44 @@
+body {
+  height: 20rem;
+  width: 25rem;
+  background-color: #1D9BF0;
+  color: #FFFFFF;
+  padding: 0 1rem;
+}
+
+.title-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+}
+
+.title-img {
+  align-self: center;
+}
+
+span {
+  color: #14171A;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: 10rem 10rem;
+  grid-template-rows: auto auto;
+  justify-content: start;
+  row-gap: 0.5rem;
+}
+
+input[type="radio"] {
+  margin-top: -1px;
+  vertical-align: middle;
+}
+
+.filter-button {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: #FFFFFF;
+  color: #1D9BF0;
+  border: none;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+}
