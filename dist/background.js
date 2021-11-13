@@ -8,17 +8,9 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.declarativeContent.onPageChanged.removeRules(() => {
   chrome.declarativeContent.onPageChanged.addRules([{
     conditions: [new chrome.declarativeContent.PageStateMatcher({
-      pageUrl: {hostEquals: 'twitter.com/explore'}
+      pageUrl: {hostEquals: 'twitter.com'}
     })
   ],
       actions: [new chrome.declarativeContent.ShowPageAction()]
   }]);
-});
-
-async function getCurrentTab() {/* ... */}
-let tab = await getCurrentTab();
-
-chrome.scripting.executeScript({
-  target: {tabId: tab.id},
-  files: ['twitter.js']
 });
