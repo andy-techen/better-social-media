@@ -6,6 +6,24 @@ const toxic = document.getElementById("toxic");
 const sexual = document.getElementById("sexual");
 const profanity = document.getElementById("profanity");
 
+// executing twitter.js
+chrome.tabs.query({
+  active: true,
+  currentWindow: true
+}, (tabs) => {
+  chrome.scripting.executeScript({
+    target: {tabId: tabs[0].id},
+    files: ['scripts/twitter.js']
+  });
+});
+
+// get query from search bar
+chrome.storage.onChanged.addListener(() => {
+  chrome.storage.sync.get("query", (res) => {
+    queryTerm.textContent = res.query;
+  });
+});
+
 chrome.storage.sync.get("depressive", (res) => {
   depressive.value = res.depressive;
 });
@@ -18,23 +36,13 @@ chrome.storage.sync.get("sexual", (res) => {
 chrome.storage.sync.get("profanity", (res) => {
   profanity.value = res.profanity;
 });
-
-const tabId = getTabId();
-chrome.scripting.executeScript(
-    {
-      target: {tabId: tabId},
-      files: ['twitter.js'],
-    },
-    () => {});
-
-// get query from search bar
 chrome.storage.sync.get("query", (res) => {
   queryTerm.textContent = res.query;
-  console.log("Query is currently " + res.query);
-})
+});
 
 // save settings in storage
-button.addEventListener("click", () => {
+button.addEventListener("click", (e) => {
+  e.preventDefault();
   chrome.storage.sync.set({"depressive": depressive.value}, () => {
     console.log("Depressive set to: " + depressive.value);
   });
@@ -48,4 +56,4 @@ button.addEventListener("click", () => {
     console.log("Profanity set to: " + profanity.value);
   });
   console.log("Abracadabra!");
-})
+});
