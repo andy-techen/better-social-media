@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import numpy as np
 import pickle
 import json
-
+import os
 
 app = Flask(__name__)
 
@@ -13,14 +13,14 @@ def get_depressive():
 
     return jsonify(prediction)
 
-@app.route('/toxic/', methods=['POST'])
-def get_toxic():
-    data = request.get_json()
-    prediction = np.array2string(toxic.predict(data))
+# @app.route('/toxic/', methods=['POST'])
+# def get_toxic():
+#     data = request.get_json()
+#     prediction = np.array2string(toxic.predict(data))
 
-    return jsonify(prediction)
+#     return jsonify(prediction)
 
 if __name__ == '__main__':
-    depressive = pickle.load(open('depressive.pickle', 'rb'))
-    toxic = pickle.load(open('toxic.pickle', 'rb'))
+    depressive = pickle.load(open('data/ModelAPI/models/depressive_xgb.pickle', 'rb'))
+    # toxic = pickle.load(open('toxic.pickle', 'rb'))
     app.run(debug=True, host='0.0.0.0')
