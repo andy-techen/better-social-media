@@ -28,7 +28,7 @@ class Listener(Stream):
     def __init__(self, cons_key, cons_secret, token, token_secret):
         super().__init__(cons_key, cons_secret, token, token_secret)
         self.cnt = 0
-        self.max_tweets = 100000
+        self.max_tweets = 10000
 
     def on_data(self, data):
         try:
@@ -81,9 +81,17 @@ if __name__ == '__main__':
             os.getenv('ACCESS_TOKEN'),
             os.getenv('ACCESS_SECRET'))  # , tweet_mode='extended'
         twitter_stream.filter(languages=["en"], track=['a', 'e', 'i', 'o', 'u']) #track can search key terms (e.g. "Depressed")
-        # twitter_stream.filter(
-        #     languages=["en"],
-        #     track=[
+        
+        # moods = [
+        #     'depressed', 'depression', 'depressing',
+        #     'confused', 'confusing', 'crappy',
+        #     'sad', 'saddening', 'aggravate', 'aggravating'
+        #     'numb', 'numbing', 'cold', 'draining',
+        #     'distressed', 'distressing', 'apathetic',
+        #     'crushing', 'crushed'
+        #     ]
+
+        # other = [
         #         'depression',
         #         'depressing',
         #         'suicide',
@@ -98,8 +106,21 @@ if __name__ == '__main__':
         #         'stressed',
         #         'upset',
         #         'pain',
-        #         'misery'
+        #         'misery',
+        #         'nothing',
+        #         'entirely',
+        #         'completely',
+        #         'everything',
+        #         'matters',
+        #         'lonely',
+        #         'loneliness',
+        #         'sad',
+        #         'miserable'
         #         ]
+
+        # twitter_stream.filter(
+        #     languages=["en"],
+        #     track=moods
 
         #     ) #track can search key terms (e.g. "Depressed")
 
