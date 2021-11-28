@@ -7,3 +7,5 @@ node_modules/
 .env
 /.vscode
 PerspectiveAPI/better-social-media-13c39de2cb30.json
+*__pycache__/
+*.ipynb_checkpoints/
