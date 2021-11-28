@@ -6,4 +6,6 @@ node_modules/
 .DS_Store
 .env
 /.vscode
-PerspectiveAPI/better-social-media-13c39de2cb30.json
+data/PerspectiveAPI/better-social-media-13c39de2cb30.json
+*.ipynb_checkpoints/
+*__pycache__/
