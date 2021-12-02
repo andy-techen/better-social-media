@@ -28,7 +28,7 @@ class Listener(Stream):
     def __init__(self, cons_key, cons_secret, token, token_secret):
         super().__init__(cons_key, cons_secret, token, token_secret)
         self.cnt = 0
-        self.max_tweets = 10000
+        self.max_tweets = 2000
 
     def on_data(self, data):
         try:
