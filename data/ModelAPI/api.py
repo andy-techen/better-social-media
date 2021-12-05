@@ -9,8 +9,6 @@ from gensim.parsing.porter import PorterStemmer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
-nltk.download('punkt')
-nltk.download('stopwords')
 
 app = Flask(__name__)
 vectorizer_depressive = pickle.load(open("data/ModelAPI/vectorizers/vectorizer_depressive.pickle", "rb"))
