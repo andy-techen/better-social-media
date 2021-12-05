@@ -43,9 +43,9 @@ def get_perspective():
     tweet = request.get_json()
     x_train = preprocess(tweet['tweet'])
     x_train_tokenized = vectorizer_perspective.transform([x_train])
-    toxicity_pred = toxicity.predict_proba(x_train_tokenized)[0][1]
-    sexually_pred = sexually.predict_proba(x_train_tokenized)[0][1]
-    profanity_pred = profanity.predict_proba(x_train_tokenized)[0][1]
+    toxicity_pred = toxicity.predict(x_train_tokenized)[0][1]
+    sexually_pred = sexually.predict(x_train_tokenized)[0][1]
+    profanity_pred = profanity.predict(x_train_tokenized)[0][1]
 
     return jsonify(toxicity=str(toxicity_pred), sexually=str(sexually_pred), profanity=str(profanity_pred))
 
