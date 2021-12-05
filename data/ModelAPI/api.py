@@ -11,8 +11,8 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 app = Flask(__name__)
-vectorizer_depressive = pickle.load(open("data/ModelAPI/vectorizers/vectorizer_depressive.pickle", "rb"))
-vectorizer_perspective = pickle.load(open("data/ModelAPI/vectorizers/PerspectiveAPI_vectorizer.pickle", "rb"))
+vectorizer_depressive = pickle.load(open("vectorizers/vectorizer_depressive.pickle", "rb"))
+vectorizer_perspective = pickle.load(open("vectorizers/PerspectiveAPI_vectorizer.pickle", "rb"))
 p = PorterStemmer()
 
 def preprocess(tweet):
@@ -37,6 +37,6 @@ def get_depressive():
 
 
 if __name__ == '__main__':
-    depressive = pickle.load(open('data/ModelAPI/models/depressive_xgb.pickle', 'rb'))
+    depressive = pickle.load(open('models/depressive_xgb.pickle', 'rb'))
     # toxic = pickle.load(open('toxic.pickle', 'rb'))
     app.run(debug=True)
