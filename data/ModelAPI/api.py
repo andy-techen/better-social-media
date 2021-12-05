@@ -13,6 +13,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 app = Flask(__name__)
 vectorizer_depressive = pickle.load(open("vectorizers/vectorizer_depressive.pickle", "rb"))
 vectorizer_perspective = pickle.load(open("vectorizers/PerspectiveAPI_vectorizer.pickle", "rb"))
+depressive = pickle.load(open('models/depressive_xgb.pickle', 'rb'))
+# toxic = pickle.load(open('toxic.pickle', 'rb'))
 p = PorterStemmer()
 
 def preprocess(tweet):
@@ -34,9 +36,5 @@ def get_depressive():
 
     return jsonify(prediction=str(prediction))
 
-
-
 if __name__ == '__main__':
-    depressive = pickle.load(open('models/depressive_xgb.pickle', 'rb'))
-    # toxic = pickle.load(open('toxic.pickle', 'rb'))
     app.run(debug=True)
