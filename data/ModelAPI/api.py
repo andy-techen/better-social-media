@@ -14,7 +14,9 @@ app = Flask(__name__)
 vectorizer_depressive = pickle.load(open("vectorizers/vectorizer_depressive.pickle", "rb"))
 vectorizer_perspective = pickle.load(open("vectorizers/PerspectiveAPI_vectorizer.pickle", "rb"))
 depressive = pickle.load(open('models/depressive_xgb.pickle', 'rb'))
-# toxic = pickle.load(open('toxic.pickle', 'rb'))
+toxicity = pickle.load(open('models/toxicity_xgb.pickle', 'rb'))
+sexually = pickle.load(open('models/sexually_explicit_xgb.pickle', 'rb'))
+profanity = pickle.load(open('models/profanity_xgb.pickle', 'rb'))
 p = PorterStemmer()
 
 def preprocess(tweet):
@@ -27,7 +29,7 @@ def preprocess(tweet):
 
     return stemmed_sentence
 
-@app.route('/depressive', methods=['POST'])
+@app.route('/api/depressive', methods=['POST'])
 def get_depressive():
     tweet = request.get_json()
     x_train = preprocess(tweet['tweet'])
@@ -35,6 +37,17 @@ def get_depressive():
     prediction = depressive.predict_proba(x_train_tokenized)[0][1]
 
     return jsonify(prediction=str(prediction))
+
+@app.route('/api/perspective', methods=['POST'])
+def get_perspective():
+    tweet = request.get_json()
+    x_train = preprocess(tweet['tweet'])
+    x_train_tokenized = vectorizer_perspective.transform([x_train])
+    toxicity_pred = toxicity.predict_proba(x_train_tokenized)[0][1]
+    sexually_pred = sexually.predict_proba(x_train_tokenized)[0][1]
+    profanity_pred = profanity.predict_proba(x_train_tokenized)[0][1]
+
+    return jsonify(toxicity=str(toxicity_pred), sexually=str(sexually_pred), profanity=str(profanity_pred))
 
 if __name__ == '__main__':
     app.run(debug=True)
