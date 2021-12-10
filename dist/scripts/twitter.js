@@ -85,7 +85,7 @@ function fetch_perspective(tweet) {
 
 tweetsDiv.addEventListener("DOMSubtreeModified", () => {
     for (let i = 0; i < tweets.length; i++) {
-        let tweet = tweets[i].querySelectorAll("div[class='css-901oao r-1fmj7o5 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-bnwqim r-qvutc0']")[0];
+        let tweet = tweets[i].querySelectorAll("div[class*='r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-bnwqim r-qvutc0']")[0];
 
         // fetch depressive predictions
         let promise_d = fetch_depressive(tweet);
