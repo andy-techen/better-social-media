@@ -87,6 +87,7 @@ tweetsDiv.addEventListener("DOMSubtreeModified", () => {
     for (let i = 0; i < tweets.length; i++) {
         try {
             let tweet = tweets[i].querySelectorAll("div[class*='r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-bnwqim r-qvutc0']")[0];
+            let tweet_id = tweet.id;
 
             // fetch depressive predictions
             let promise_d = fetch_depressive(tweet);
@@ -98,9 +99,13 @@ tweetsDiv.addEventListener("DOMSubtreeModified", () => {
                 let pred_d = preds[0];
                 let pred_p = preds[1];
                 // if any category exceeds slider settings
-                if (pred_d > depressive || pred_p['prof'] > profanity || pred_p['sex'] > sexual || pred_p['toxic'] > toxic) {
-                    console.log(`Tweet ${i} filtered out!`);
-                    tweets[i].style.opacity = 0.1;
+                if (pred_d > (1 - depressive) || pred_p['prof'] > (10 - profanity) || pred_p['sex'] > (10 - sexual) || pred_p['toxic'] > (10 - toxic)) {
+                    console.log(`Tweet ${i} depressive: ${pred_d}`);
+                    console.log(`Tweet ${i} profanity: ${pred_p['prof']}`);
+                    console.log(`Tweet ${i} sexually: ${pred_p['sex']}`);
+                    console.log(`Tweet ${i} toxicity: ${pred_p['toxic']}`);
+                    console.log(`Tweet ${tweet_id} filtered out!`);
+                    document.getElementById(tweet_id).style.opacity = 0.1;
                 }
             });
         } catch (err) {
