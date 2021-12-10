@@ -85,22 +85,26 @@ function fetch_perspective(tweet) {
 
 tweetsDiv.addEventListener("DOMSubtreeModified", () => {
     for (let i = 0; i < tweets.length; i++) {
-        let tweet = tweets[i].querySelectorAll("div[class*='r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-bnwqim r-qvutc0']")[0];
+        try {
+            let tweet = tweets[i].querySelectorAll("div[class*='r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-bnwqim r-qvutc0']")[0];
 
-        // fetch depressive predictions
-        let promise_d = fetch_depressive(tweet);
-        // fetch perspective api predictions
-        let promise_p = fetch_perspective(tweet);
-
-        Promise.all([promise_d, promise_p])
-        .then(preds => {
-            let pred_d = preds[0];
-            let pred_p = preds[1];
-            // if any category exceeds slider settings
-            if (pred_d > depressive || pred_p['prof'] > profanity || pred_p['sex'] > sexual || pred_p['toxic'] > toxic) {
-                console.log(`Tweet ${i} filtered out!`);
-                tweets[i].style.opacity = 0.1;
-            }
-        });
+            // fetch depressive predictions
+            let promise_d = fetch_depressive(tweet);
+            // fetch perspective api predictions
+            let promise_p = fetch_perspective(tweet);
+    
+            Promise.all([promise_d, promise_p])
+            .then(preds => {
+                let pred_d = preds[0];
+                let pred_p = preds[1];
+                // if any category exceeds slider settings
+                if (pred_d > depressive || pred_p['prof'] > profanity || pred_p['sex'] > sexual || pred_p['toxic'] > toxic) {
+                    console.log(`Tweet ${i} filtered out!`);
+                    tweets[i].style.opacity = 0.1;
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
     }
 });
