@@ -35,17 +35,16 @@ tweetsDiv.addEventListener("DOMSubtreeModified", () => {
         let tweet = tweets[i].querySelectorAll("div[class='css-1dbjc4n r-18u37iz']")[1];
         fetch(url_d, {
             method: 'post',
-            headers: {"content-type": "application/json"},
-            body: JSON.stringify({'tweet': tweet.textContent}),
+            body: JSON.stringify({"tweet": tweet.textContent}),
             mode: 'no-cors'
         })
-        .then(response => {
-            return response.json()
+        .then(res => {
+            return res.json();
         })
-        .then((data) => {
-            console.log('Request succeeded with JSON response', data);
+        .then(data => {
+            console.log(data);
         })
-        .catch((err) => {
+        .catch(err => {
             console.log('Request failed', err);
         });
         if (tweet.textContent.includes("@umich")) {
