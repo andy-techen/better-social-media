@@ -32,17 +32,18 @@ queryBar.addEventListener("change", () => {
 
 tweetsDiv.addEventListener("DOMSubtreeModified", () => {
     for (let i = 0; i < tweets.length; i++) {
-        let tweet = tweets[i].querySelectorAll("div[class='css-1dbjc4n r-18u37iz']")[1];
+        let tweet = tweets[i].querySelectorAll("div[class='css-901oao r-1fmj7o5 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-bnwqim r-qvutc0']")[0];
         fetch(url_d, {
             method: 'post',
-            body: JSON.stringify({"tweet": tweet.textContent}),
-            mode: 'no-cors'
+            body: {"tweet": tweet.textContent},
+            header: {'content-type': 'application/json'},
+            mode: 'cors'
         })
         .then(res => {
-            return res.json();
+            return res.text();
         })
         .then(data => {
-            console.log(data);
+            console.log(data ? JSON.parse(data) : {});
         })
         .catch(err => {
             console.log('Request failed', err);
