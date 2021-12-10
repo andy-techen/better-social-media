@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_cors import cross_origin
+from flask_cors import CORS
 import numpy as np
 import pandas as pd
 import pickle
@@ -12,6 +12,8 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 app = Flask(__name__)
+CORS(app)
+
 vectorizer_depressive = pickle.load(open("vectorizers/vectorizer_depressive.pickle", "rb"))
 vectorizer_perspective = pickle.load(open("vectorizers/PerspectiveAPI_vectorizer.pickle", "rb"))
 depressive = pickle.load(open('models/depressive_xgb.pickle', 'rb'))
@@ -31,7 +33,6 @@ def preprocess(tweet):
     return stemmed_sentence
 
 @app.route('/api/depressive', methods=['POST'])
-@cross_origin()
 def get_depressive():
     tweet = request.get_json()
     x_train = preprocess(tweet['tweet'])
@@ -41,7 +42,6 @@ def get_depressive():
     return jsonify(prediction=str(prediction))
 
 @app.route('/api/perspective', methods=['POST'])
-@cross_origin()
 def get_perspective():
     tweet = request.get_json()
     x_train = preprocess(tweet['tweet'])
