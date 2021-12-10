@@ -35,8 +35,8 @@ def preprocess(tweet):
 
 @app.route('/api/depressive', methods=['POST'])
 def get_depressive():
-    # tweet = request.get_json()
-    tweet = json.loads(request.get_data())
+    tweet = request.get_json()
+    # tweet = json.loads(request.get_data())
     x_train = preprocess(tweet['tweet'])
     x_train_tokenized = vectorizer_depressive.transform([x_train])
     prediction = depressive.predict_proba(x_train_tokenized)[0][1]
@@ -45,8 +45,8 @@ def get_depressive():
 
 @app.route('/api/perspective', methods=['POST'])
 def get_perspective():
-    # tweet = request.get_json()
-    tweet = json.loads(request.get_data())
+    tweet = request.get_json()
+    # tweet = json.loads(request.get_data())
     x_train = preprocess(tweet['tweet'])
     x_train_tokenized = vectorizer_perspective.transform([x_train])
     toxicity_pred = toxicity.predict(x_train_tokenized)[0]
