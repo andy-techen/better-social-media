@@ -1,11 +1,12 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 import numpy as np
 import pandas as pd
 import pickle
 import re
 import nltk
 import xgboost
+import json
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from gensim.parsing.porter import PorterStemmer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -34,7 +35,8 @@ def preprocess(tweet):
 
 @app.route('/api/depressive', methods=['POST'])
 def get_depressive():
-    tweet = request.get_json()
+    # tweet = request.get_json()
+    tweet = json.loads(request.get_data())
     x_train = preprocess(tweet['tweet'])
     x_train_tokenized = vectorizer_depressive.transform([x_train])
     prediction = depressive.predict_proba(x_train_tokenized)[0][1]
@@ -43,7 +45,8 @@ def get_depressive():
 
 @app.route('/api/perspective', methods=['POST'])
 def get_perspective():
-    tweet = request.get_json()
+    # tweet = request.get_json()
+    tweet = json.loads(request.get_data())
     x_train = preprocess(tweet['tweet'])
     x_train_tokenized = vectorizer_perspective.transform([x_train])
     toxicity_pred = toxicity.predict(x_train_tokenized)[0]
