@@ -10,21 +10,24 @@ var profanity = "";
 var url_d = "https://better-social-media.herokuapp.com/api/depressive";
 var url_p = "https://better-social-media.herokuapp.com/api/perspective";
 
-function scale_range(val, min, max) {
-    return (max - min) / (min - val);
+function norm_to_range(val, from_min=0, from_max=1, to_min=1, to_max=10) {
+    from_delta = from_max - from_min;
+    to_delta = to_max - to_min;
+
+    return ((val - from_min) * to_delta / from_delta) + to_min;
 }
 
 chrome.storage.sync.get("depressive", (res) => {
     depressive = res.depressive;
 });
 chrome.storage.sync.get("toxic", (res) => {
-    toxic = res.toxic;
+    toxic = norm_to_range(res.toxic);
 });
 chrome.storage.sync.get("sexual", (res) => {
-    sexual = res.sexual;
+    sexual = norm_to_range(res.sexual);
 });
 chrome.storage.sync.get("profanity", (res) => {
-    profanity = res.profanity;
+    profanity = norm_to_range(res.profanity);
 })
 
 queryBar.addEventListener("change", () => {
@@ -92,6 +95,8 @@ tweetsDiv.addEventListener("DOMSubtreeModified", () => {
         Promise.all([promise_d, promise_p])
         .then(preds => {
             console.log(preds);
+            console.log("depressive " + depressive);
+            console.log("toxic " + toxic);
         });
         // console.log(`Tweet ${i} depressive proba: ${pred_d}`);
         // console.log(`Tweet ${i} profane proba: ${pred_prof}`);
