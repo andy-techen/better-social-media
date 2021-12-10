@@ -80,49 +80,8 @@ if __name__ == '__main__':
             os.getenv('CONSUMER_SECRET'),
             os.getenv('ACCESS_TOKEN'),
             os.getenv('ACCESS_SECRET'))  # , tweet_mode='extended'
+
         twitter_stream.filter(languages=["en"], track=['a', 'e', 'i', 'o', 'u']) #track can search key terms (e.g. "Depressed")
-        
-        # moods = [
-        #     'depressed', 'depression', 'depressing',
-        #     'confused', 'confusing', 'crappy',
-        #     'sad', 'saddening', 'aggravate', 'aggravating'
-        #     'numb', 'numbing', 'cold', 'draining',
-        #     'distressed', 'distressing', 'apathetic',
-        #     'crushing', 'crushed'
-        #     ]
-
-        # other = [
-        #         'depression',
-        #         'depressing',
-        #         'suicide',
-        #         'suicidal'
-        #         'mental health',
-        #         'panic',
-        #         'panic attack',
-        #         'antidepressants',
-        #         'anxiety',
-        #         'disorder',
-        #         'stress',
-        #         'stressed',
-        #         'upset',
-        #         'pain',
-        #         'misery',
-        #         'nothing',
-        #         'entirely',
-        #         'completely',
-        #         'everything',
-        #         'matters',
-        #         'lonely',
-        #         'loneliness',
-        #         'sad',
-        #         'miserable'
-        #         ]
-
-        # twitter_stream.filter(
-        #     languages=["en"],
-        #     track=moods
-
-        #     ) #track can search key terms (e.g. "Depressed")
 
 
     except Exception as e:
