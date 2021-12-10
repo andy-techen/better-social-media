@@ -36,7 +36,6 @@ tweetsDiv.addEventListener("DOMSubtreeModified", () => {
         fetch(url_d, {
             method: 'post',
             body: {"tweet": tweet.textContent},
-            header: {'content-type': 'application/json'},
             mode: 'cors'
         })
         .then(res => {
