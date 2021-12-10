@@ -38,7 +38,7 @@ queryBar.addEventListener("change", () => {
 });
 
 function fetch_depressive(tweet) {
-    let pred_d = 0;
+    let pred = 0;
 
     return fetch(url_d, {
         method: 'post',
@@ -49,8 +49,8 @@ function fetch_depressive(tweet) {
         return res.text();
     })
     .then(data => {
-        pred_d = data ? JSON.parse(data).prediction : 0;
-        return pred_d;
+        pred = data ? JSON.parse(data).prediction : 0;
+        return pred;
     })
     .catch(err => {
         console.log('Depressive request failed', err);
@@ -58,7 +58,7 @@ function fetch_depressive(tweet) {
 }
 
 function fetch_perspective(tweet) {
-    let pred_p = {};
+    let pred = {};
     let pred_prof = 0;
     let pred_sex = 0;
     let pred_toxic = 0;
@@ -72,11 +72,11 @@ function fetch_perspective(tweet) {
         return res.text();
     })
     .then(data => {
-        pred_p = data ? JSON.parse(data) : {"profanity": 0, "sexually": 0, "toxicity": 0};
-        pred_prof = pred_p.profanity;
-        pred_sex = pred_p.sexually;
-        pred_toxic = pred_p.toxicity;
-        return {'pred_prof': pred_prof, 'pred_sex': pred_sex, 'pred_toxic': pred_toxic};
+        pred = data ? JSON.parse(data) : {"profanity": 0, "sexually": 0, "toxicity": 0};
+        pred_prof = pred.profanity;
+        pred_sex = pred.sexually;
+        pred_toxic = pred.toxicity;
+        return {'prof': pred_prof, 'sex': pred_sex, 'toxic': pred_toxic};
     })
     .catch(err => {
         console.log('Perspective request failed', err);
@@ -94,19 +94,13 @@ tweetsDiv.addEventListener("DOMSubtreeModified", () => {
 
         Promise.all([promise_d, promise_p])
         .then(preds => {
-            console.log(preds);
-            console.log("depressive " + depressive);
-            console.log("toxic " + toxic);
+            let pred_d = preds[0];
+            let pred_p = preds[1];
+            // if any category exceeds slider settings
+            if (pred_d > depressive || pred_p['prof'] > profanity || pred_p['sex'] > sexual || pred_p['toxic'] > toxic) {
+                console.log(`Tweet ${i} filtered out!`);
+                tweets[i].style.opacity = 0.1;
+            }
         });
-        // console.log(`Tweet ${i} depressive proba: ${pred_d}`);
-        // console.log(`Tweet ${i} profane proba: ${pred_prof}`);
-        // console.log(`Tweet ${i} sexually explicit proba: ${pred_sex}`);
-        // console.log(`Tweet ${i} toxic proba: ${pred_toxic}`);
-
-        // if any category exceeds slider settings
-        // if (pred_d > depressive || pred_prof > profanity || pred_sex > sexual || pred_toxic > toxic) {
-        //     console.log(`Tweet ${i} filtered out!`);
-        //     tweets[i].style.opacity = 0.1;
-        // }
     }
 });
