@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import cross_origin
 import numpy as np
 import pandas as pd
 import pickle
@@ -30,6 +31,7 @@ def preprocess(tweet):
     return stemmed_sentence
 
 @app.route('/api/depressive', methods=['POST'])
+@cross_origin()
 def get_depressive():
     tweet = request.get_json()
     x_train = preprocess(tweet['tweet'])
@@ -39,6 +41,7 @@ def get_depressive():
     return jsonify(prediction=str(prediction))
 
 @app.route('/api/perspective', methods=['POST'])
+@cross_origin()
 def get_perspective():
     tweet = request.get_json()
     x_train = preprocess(tweet['tweet'])
