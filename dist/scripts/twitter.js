@@ -84,6 +84,7 @@ function fetch_perspective(tweet) {
 }
 
 tweetsDiv.addEventListener("DOMSubtreeModified", () => {
+    tweets = tweetsDiv.getElementsByTagName("article");
     for (let i = 0; i < tweets.length; i++) {
         try {
             let tweet = tweets[i].querySelectorAll("div[class*='r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-bnwqim r-qvutc0']")[0];
