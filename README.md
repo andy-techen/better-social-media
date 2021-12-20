@@ -1,22 +1,39 @@
 # Better Social Media
-Aiming to cleanse our social media feed.  
-Work in progress.
+**Better Social Media** is a project aiming to cleanse our social media feed.
+
+## Chrome Extension
+
+<p>
+  <img src="../images/filters.jpg" width="400">
+  <img src="../images/whiteout.jpg" width="400">
+</p>
+
+## Models
+
+
+## Deployed API
+### Depressiveness
+Predictions for a tweet's depressiveness can be retrieved using a POST request: `POST https://better-social-media.herokuapp.com/api/depressive`
+#### Sample Input
+```
+```
+#### Sample Output
+```
+```
+
+### Toxicity, Profanity, and Sexually Explicitness
+Predictions for a tweet's toxicity, profanity, and sexually explicitness can be retrieved using a POST request: `POST https://better-social-media.herokuapp.com/api/depressive`
+#### Sample Input
+```
+```
+#### Sample Output
+```
+```
 
 ## Requirements
-- Flask==1.1.2
-- gensim==4.1.2
-- google_api_python_client==2.32.0
-- nltk==3.5
-- numpy==1.19.2
-- pandas==1.3.3
-- python-dotenv==0.19.2
-- scikit_learn==1.0.1
-- tqdm==4.50.2
-- tweepy==4.0.0
-- Unidecode==1.3.2
-- xgboost==1.5.1
+In order to run the api and models locally, install the required python packages using `pip install -r requirements.txt` after cloning the repository.
 
 ## Project Authors
-- Te-Hsuan Chen
+- Andy Chen
 - Saurabh Budholiya
 - Cameron Milne
